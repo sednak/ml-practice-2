@@ -1,0 +1,40 @@
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+confusion_matrix,classification_report
+import matplotlib.pyplot as plt
+  data=pd.read_csv("Downloads/Titanic-Dataset.csv")
+data.head()
+  data['Age'].fillna(data['Age'].median(),inplace=True)
+  data['Embarked'].fillna(data['Embarked'].mode()[0],inplace=True)
+  data.drop(['Cabin','Ticket','Name'],axis=1,inplace=True)
+  data.head()
+  Encoder=LabelEncoder()
+data['Sex']=Encoder.fit_transform(data['Sex'])
+  data=pd.get_dummies(data,columns=['Embarked'],dtype=int)
+data.head()
+  x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=100)
+    model=RandomForestClassifier(n_estimators=100,criterion="gini",max_depth=5,random_state=100)
+    model.fit(x_train,y_train)
+    RandomForestClassifier(max_depth=5,random_state=100)
+    y_pred=model.predict(x_test)
+y_pred
+    accuracy=accuracy_score(y_test,y_pred)
+accuracy
+    cm=confusion_matrix(y_test,y_pred)
+cm
+classrepo=classification_report(y_test,y_pred)
+print(classrepo)
+    tree=model.estimators_[45]
+plt.figure(figsize=(9,9))
+plot_tree(tree,feature_names=x.columns,class_names=["not survived","survived"],filled=True)
+plt.show()
+    importance=model.feature_importances_
+features=x.columns
+plt.figure(figsize=(6,6))
+plt.bar(features,importance)
+plt.xticks(rotation=90)
+plt.title("feature importance")
+plt.show()
