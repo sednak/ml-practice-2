@@ -1,0 +1,40 @@
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier,plot_tree
+from sklearn.metrics import accuracy_score
+confusion_matrix,classification_report
+import matplotlib.pyplot as plt
+  data=pd.read_csv("Downloads/Titanic-Dataset.csv")
+data.head()
+  data.info()
+  data.describe
+  data.isnull().sum()
+  data['Age'].fillna(data['Age'].median(),inplace=True)
+  data['Embarked'].fillna(data['Embarked'].mode()[0],inplace=True)
+  data.drop(['Cabin','Ticket','Name'],axis=1,inplace=True)
+  data.head()
+  Encoder=LabelEncoder()
+data['Sex']=Encoder.fit_transform(data['Sex'])
+  data=pd.get_dummies(data,columns=['Embarked'],dtype=int)
+data.head()
+  x=data.drop("Survived",axis=1)
+y=data["Survived"]
+  x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=100)
+    model=DecisionTreeClassifier(max_depth=3,random_state=100)
+model.fit(x_train,y_train)
+    DecisionTreeClassifier(max_depth=3,random_state=100)
+y_pred=model.predict(x_test)
+y_pred
+    accuracy=accuracy_score(y_test,y_pred)
+accuracy
+    cm=confusion_matrix(y_test,y_pred)
+cm
+    classrepo=classification_report(y_test,y_pred)
+print(classrepo)
+    plt.figure(figsize=(10,10))
+plot_tree(model,feature_names=x.columns,class_names=["not survived","survived"],filled=True)
+plt.show()
+    model=DecisionTreeClassifier(criterion="entropy",max_depth=3,random_state100) 
+    model=DecisionTreeClassifier(,ccp_alpha=0.01,criterion="entropy",random_state100)
+    model=DecisionTreeClassifier(criterion="gini",max_depth=3,random_state100)
