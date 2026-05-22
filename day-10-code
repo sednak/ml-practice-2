@@ -1,0 +1,47 @@
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import  accuracy_score,confusion_matrix,classification_report
+from mlxtend.plotting import plot_decision_regions
+import matplotlib.pyplot as plt
+  pip install mlxtend
+  iris=load_iris()
+x=iris.data
+y=iris.target
+data=pd.DataFrame(x,columns=iris.feature_names)
+data['Species']=y
+data.head()
+  x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=42)
+    scaler=StandardScaler()
+x_train=scaler.fit_transform(x_train)
+x_test=scaler.transform(x_test)
+    model= KNeighborsClassifier(n_neighbors=5,metric='minkowski',p=2)
+    model.fit(x_train,y_train)
+    y_pred=model.predict(x_test)
+y_pred
+    accuracy=accuracy_score(y_test,y_pred)
+accuracy
+    cm=confusion_matrix(y_test,y_pred)
+print(cm)
+    report=classification_report(y_test,y_pred)
+print(report)
+    sample=[]
+for feature in iris.feature_names:
+ value=float(input(f"Enter value for {feature}:"))
+ sample.append(value)
+sample=[sample]
+sample=scaler.transform(sample)
+prediction=model.predict(sample)
+print(prediction)
+print("flower=",iris.target_names[prediction[0]])
+    model_vis= KNeighborsClassifier(n_neighbors=5)
+x_vision=x_train[:,:2]
+model_vis.fit(x_vision,y_train)
+plt.figure(figsize=(7,7))
+plot_decision_regions(x_vision,y_train,clf=model_vis)
+plt.xlabel("Sepal length")
+plt.ylabel("Sepal width")
+plt.title("KNN")
+plt.show()
