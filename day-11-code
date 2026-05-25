@@ -1,0 +1,110 @@
+import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
+import matplotlib.pyplot as plt
+from mlxtend.plotting import plot_decision_regions
+  iris=load_iris()
+x=iris.data
+y=iris.target
+df=pd.DataFrame(x,columns=iris.feature_names)
+df['Species']=y
+df.head()
+  x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3,random_state=42)
+    scaler=StandardScaler()
+x_train=scaler.fit_transform(x_train)
+x_test=scaler.transform(x_test)
+    model=SVC()
+model.fit(x_train,y_train)
+SVC()
+    y_pred=model.predict(x_test)
+y_pred
+    model1=SVC(kernel='rbf',gamma=0.1)
+model2=SVC(kernel='linear')
+model3=SVC(kernel='poly',degree=3)
+model1.fit(x_train,y_train)
+model2.fit(x_train,y_train)
+model3.fit(x_train,y_train)
+    y_pred1=model1.predict(x_test)
+y_pred1
+    y_pred2=model2.predict(x_test)
+y_pred2
+    y_pred3=model3.predict(x_test)
+y_pred3
+    sample=[]
+for feature in iris.feature_names:
+    value=float(input(f"Enter the value of {feature}:"))
+    sample.append(value)
+sample=scaler.transform([sample])
+prediction=model1.predict(sample)
+print("predicted_class ",iris.target_names[prediction[0]])
+    accuracy=accuracy_score(y_test,y_pred)
+accuracy
+    cm=confusion_matrix(y_test,y_pred)
+print(cm)
+    report=classification_report(y_test,y_test)
+print(report)
+    results={
+    "rbf":accuracy_score(y_test,y_pred1),
+    "linear":accuracy_score(y_test,y_pred2),
+    "poly":accuracy_score(y_test,y_pred3)
+    
+}
+plt.bar(results.keys(),results.values())
+color=['blue','red','green']
+plt.ylim(0.9,1.0)
+plt.ylabel("accuracy")
+plt.show()
+  x_vision = x_train[:, :2]
+
+model_vis = SVC(kernel='linear')
+
+model_vis.fit(x_vision, y_train)
+
+
+plt.figure(figsize=(7,7))
+
+plot_decision_regions(x_vision, y_train, clf=model_vis)
+
+plt.xlabel("Sepal Length")
+plt.ylabel("Sepal Width")
+
+plt.title("SVM Decision Boundary")
+
+plt.show()
+  x_vision = x_train[:, :2]
+
+model_vis = SVC(kernel='poly')
+
+model_vis.fit(x_vision, y_train)
+
+
+plt.figure(figsize=(7,7))
+
+plot_decision_regions(x_vision, y_train, clf=model_vis)
+
+plt.xlabel("Sepal Length")
+plt.ylabel("Sepal Width")
+
+plt.title("SVM Decision Boundary")
+
+plt.show()
+  x_vision = x_train[:, :2]
+
+model_vis = SVC(kernel='rbf')
+
+model_vis.fit(x_vision, y_train)
+
+
+plt.figure(figsize=(7,7))
+
+plot_decision_regions(x_vision, y_train, clf=model_vis)
+
+plt.xlabel("Sepal Length")
+plt.ylabel("Sepal Width")
+
+plt.title("SVM Decision Boundary")
+
+plt.show()
