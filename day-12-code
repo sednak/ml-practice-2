@@ -1,0 +1,115 @@
+import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
+from sklearn.naive_bayes import GaussianNB
+iris=load_iris()
+x=iris.data
+y=iris.target
+df=pd.DataFrame(x,columns=iris.feature_names)
+df['Species']=iris.target
+df.head()
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3,random_state=42)
+scaler=StandardScaler()
+x_train=scaler.fit_transform(x_train)
+x_test=scaler.transform(x_test)
+model=GaussianNB()
+model.fit(x_train,y_train)
+y_pred=model.predict(x_test)
+y_pred
+accuracy=accuracy_score(y_test,y_pred)
+accuracy
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score
+texts=[
+    "win money now"
+    "free lottery prizes"
+    "hello my friend"
+    "claim cryptocurrency"
+    "good morning my friend"
+    "iphone for rupees 1000"
+    "play and win  unlimited rewards"
+    
+]
+labels=[1,1,0,1,0,1,1]
+vectorize=CountVectorizer()
+x=vectorize.fit_transform(texts)
+y=labels
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=5)
+model=MultinomialNB()
+model.fit(x_train,y_train)
+y_pred=model.predict(x_test)
+y_pred
+sample=["free money prizes"]
+sample_vector=vectorizer.transform(sample)
+prediction=model.predict(sample_vector)
+print(prediction[0])
+if prediction[0]==1:
+    print("spam")
+else:
+    print("not_spam")
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.metrics import accuracy_score
+texts=[
+    "Win Money Now",
+    "Free Lottery prizes",
+    "Hello my friend",
+    "Claim Cryptocurrency",
+    "Good Morning My dear",
+    "Iphone for rupees 1000",
+    "Play and win unlimited rewards"
+]
+labels=[1,1,0,1,0,1,1]
+vectorizer=CountVectorizer(binary=True)
+x=vectorizer.fit_transform(texts)
+y=labels
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=5)
+y_pred=model.predict(x_test)
+y_pred
+model=BernoulliNB()
+model.fit(x_train,y_train)
+BernoulliNB()
+sample=["Good Morning my friend"]
+sample_vector=vectorizer.transform(sample)
+prediction=model.predict(sample_vector)
+print(prediction[0])
+import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+from sklearn.preprocessing import StandardScaler
+iris=load_iris()
+x=iris.data
+y=iris.target
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=42)
+scaler=StandardScaler()
+x_train=scaler.fit_transform(x_train)
+x_test=scaler.transform(x_test)
+models={
+    "Logistic Regression":LogisticRegression(),
+    "KNN":KNeighborsClassifier(),
+    "SVM":SVC(),
+    "Decision Tree":DecisionTreeClassifier(),
+    "Random forest":RandomForestClassifier(),
+    "Naive bayes":GaussianNB()
+}
+results=[]
+for name,model in models.items():
+    model.fit(x_train,y_train)
+    y_pred=model.predict(x_test)
+    accuracy=accuracy_score(y_test,y_pred)
+    results.append([name,accuracy])
+    print("Model=",name)
+
+    print("Accuracy=",accuracy)
